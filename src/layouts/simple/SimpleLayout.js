@@ -1,31 +1,17 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link as RouterLink } from 'react-router-dom';
 // @mui
-import { styled } from '@mui/material/styles';
-// components
-import Logo from '../../components/logo';
-
-// ----------------------------------------------------------------------
-
-const StyledHeader = styled('header')(({ theme }) => ({
-  top: 0,
-  left: 0,
-  lineHeight: 0,
-  width: '100%',
-  position: 'absolute',
-  padding: theme.spacing(3, 3, 0),
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(5, 5, 0),
-  },
-}));
+import { Link, Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
 export default function SimpleLayout() {
   return (
     <>
-      <StyledHeader>
-        <Logo />
-      </StyledHeader>
+      <Link to="/app" component={RouterLink} sx={{ display: 'contents' }}>
+        <Typography variant="h4" sx={{ position: 'fixed', color: '#22C066', top: { xs: 16, sm: 24, md: 40 }, left: { xs: 16, sm: 24, md: 40 } }}>
+              feedbackHub .
+        </Typography>
+      </Link>
 
       <Outlet />
     </>

@@ -7,6 +7,8 @@ import ThemeProvider from './theme';
 // components
 import { StyledChart } from './components/chart';
 import ScrollToTop from './components/scroll-to-top';
+// hooks
+import AuthGuard from './hooks/AuthGuard';
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +19,9 @@ export default function App() {
         <ThemeProvider>
           <ScrollToTop />
           <StyledChart />
-          <Router />
+          <AuthGuard>
+            <Router />
+          </AuthGuard>
         </ThemeProvider>
       </BrowserRouter>
     </HelmetProvider>

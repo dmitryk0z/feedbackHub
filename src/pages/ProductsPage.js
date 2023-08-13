@@ -1,49 +1,57 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
-import { Container, Stack, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
+// Amplify
+import { API, Storage, graphqlOperation } from 'aws-amplify';
+import { listProducts, reviewsByProductID } from '../graphql/queries';
 // components
-import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
-// mock
-import PRODUCTS from '../_mock/products';
+import { ProductList } from '../sections/@dashboard/products';
 
 // ----------------------------------------------------------------------
 
 export default function ProductsPage() {
-  const [openFilter, setOpenFilter] = useState(false);
+  const [products, setProducts] = useState([]);
 
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
+  const fetchProducts = async () => {
+    try {
+      const apiResponse = await API.graphql(graphqlOperation(listProducts));
+      const productList = apiResponse.data.listProducts.items;
+      const productsWithImages = await Promise.all(
+        productList.map(async (product) => {
+          const imageUrl = await Storage.get(product.image, { level: 'public' });
+          return { ...product, image: imageUrl };
+        })
+      );
+
+      // Fetch and add reviews for each product
+      const productsWithReviews = await Promise.all(
+        productsWithImages.map(async (product) => {
+          const apiResponse = await API.graphql(graphqlOperation(reviewsByProductID, { productID: product.id }));
+          const reviews = apiResponse.data.reviewsByProductID.items;
+          return { ...product, Reviews: reviews };
+        })
+      );
+      setProducts(productsWithReviews);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
   };
 
   return (
     <>
       <Helmet>
-        <title> Dashboard: Products | Minimal UI </title>
+        <title> Dashboard: Products </title>
       </Helmet>
-
       <Container>
         <Typography variant="h4" sx={{ mb: 5 }}>
           Products
         </Typography>
-
-        <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
-          <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-            <ProductFilterSidebar
-              openFilter={openFilter}
-              onOpenFilter={handleOpenFilter}
-              onCloseFilter={handleCloseFilter}
-            />
-            <ProductSort />
-          </Stack>
-        </Stack>
-
-        <ProductList products={PRODUCTS} />
-        <ProductCartWidget />
+        <ProductList products={products} />
       </Container>
     </>
   );
