@@ -22,7 +22,8 @@ ProductDialog.propTypes = {
 };
 
 export default function ProductDialog({ product, open, onClose }) {
-  const { image, name, Reviews } = product;
+  const { image, name } = product;
+  const [Reviews, setReviews] = useState(product.Reviews);
   const { user } = useFetchUserData();
   const [editMode, setEditMode] = useState(false);
   const [userReview, setUserReview] = useState(null);
@@ -45,29 +46,6 @@ export default function ProductDialog({ product, open, onClose }) {
   }, [user, Reviews]);
 
   const handleRatingChange = async (event, newRating) => {
-    if (!userReview) {
-      // If the user has not reviewed the product, check if there's an existing review with the same productID and createdBy
-      const existingReview = Reviews.find((review) => review.createdBy === user.sub);
-      if (existingReview) {
-        // If there's an existing review, update its rating
-        const updatedReview = { ...existingReview, rating: newRating };
-        try {
-          await API.graphql(
-            graphqlOperation(updateReview, {
-              input: {
-                id: existingReview.id,
-                rating: newRating,
-              },
-            })
-          );
-          setUserReview(updatedReview);
-        } catch (error) {
-          console.error('Error updating review:', error);
-        }
-        return;
-      }
-    }
-
     setRating(newRating);
     if (userReview) {
       // If the user has already reviewed the product, update their rating in the database
@@ -86,7 +64,7 @@ export default function ProductDialog({ product, open, onClose }) {
         console.error('Error updating review:', error);
       }
     } else {
-      // If there's no existing review, add a new review to the database
+      // If there's no existing review, add a new review to the database with the given rating
       const newReview = {
         productID: product.id,
         content: '',
@@ -135,6 +113,8 @@ export default function ProductDialog({ product, open, onClose }) {
         content: userReviewContent,
         rating,
         createdBy: user.sub,
+        userFirstName: user.given_name,
+        userLastName: user.family_name,
       };
       try {
         const createdReview = await API.graphql(
@@ -179,10 +159,12 @@ export default function ProductDialog({ product, open, onClose }) {
           })
         );
         // Clear the user's review and exit edit mode
+        const updatedReviews = Reviews.filter((review) => review.id !== userReview.id);
         setUserReview(null);
         setRating(0);
         setUserReviewContent('');
         setEditMode(false);
+        setReviews(updatedReviews);
       } catch (error) {
         console.error('Error deleting review:', error);
       }

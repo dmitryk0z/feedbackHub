@@ -45,9 +45,9 @@ export default function UserReviewSection({
   return (
     <Box>
       <DialogImage alt={name} src={image} />
-      <Typography variant="h3" color="text.secondary" sx={{ mt: 2}}>
-          {name}
-        </Typography>
+      <Typography variant="h3" color="text.secondary" sx={{ mt: 2 }}>
+        {name}
+      </Typography>
       <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="subtitle1" color="text.secondary">
           Your Review and Rating:
