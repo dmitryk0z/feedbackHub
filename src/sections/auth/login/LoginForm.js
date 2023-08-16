@@ -23,7 +23,7 @@ export default function LoginForm() {
   const handleClick = async () => {
     try {
       await Auth.signIn(email, password);
-      navigate('/app', { replace: true });
+      navigate('/app/products', { replace: true });
     } catch (error) {
       setError('Invalid email or password. Please try again.');
     }

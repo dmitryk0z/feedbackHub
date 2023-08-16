@@ -12,6 +12,10 @@ import ProductsPage from './pages/ProductsPage';
 export default function Router() {
   const routes = useRoutes([
     {
+      path: '/',
+      element: <Navigate to="/app/products" />, // Redirect to /app/products
+    },
+    {
       path: '/app',
       element: <DashboardLayout />,
       children: [
@@ -26,9 +30,7 @@ export default function Router() {
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="login" />, index: true },
         { path: '404', element: <Page404 /> },
-        { path: '*', element: <Navigate to="/404" /> },
       ],
     },
     {
