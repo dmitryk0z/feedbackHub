@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 // @mui
-import { Box, Card, Link, Typography, Stack, Rating } from '@mui/material';
+import { Box, Card, Link, Typography, Stack, Rating, Divider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 // sections
@@ -64,10 +64,23 @@ export default function ProductCard({ product }) {
             </Typography>
           </Link>
           <Stack>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               Total Reviews: {totalReviews}
             </Typography>
-            <Rating value={averageRating} precision={1} readOnly emptyIcon={<StarBorderIcon fontSize="inherit" />} />
+            <Divider role="presentation">
+              <Typography variant="body2" color="text.secondary">Avg Rating</Typography>
+            </Divider>
+            <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Rating
+                value={averageRating}
+                precision={0.5}
+                readOnly
+                emptyIcon={<StarBorderIcon fontSize="inherit" />}
+              />
+              <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
+                {averageRating}
+              </Typography>
+            </Box>
           </Stack>
         </Stack>
       </Card>

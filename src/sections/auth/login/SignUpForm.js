@@ -70,8 +70,8 @@ export default function SignUpForm({ open, onClose, onCodeConfirmationSuccess })
       setPasswordError('Password should include numerals');
       isValid = false;
     }
-    if (!/(?=.*[!@#$%^&*])/.test(password)) {
-      setPasswordError('Password should include symbols');
+    if (!/(?=.*[!@#$%^&*()\-_=+[\]{}|;:'",.<>?/~`\\])/.test(password)) {
+      setPasswordError('Password should include special characters');
       isValid = false;
     }
     if (password.length < 8) {
