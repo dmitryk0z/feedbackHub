@@ -20,7 +20,7 @@ export default function LoginForm() {
   const [showForgotPasswordForm, setShowForgotPasswordForm] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleClick = async () => {
+  const handleSignIn = async () => {
     try {
       await Auth.signIn(email, password);
       navigate('/app/products', { replace: true });
@@ -79,7 +79,7 @@ export default function LoginForm() {
         </Link>
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleSignIn}>
         Login
       </LoadingButton>
     </>
