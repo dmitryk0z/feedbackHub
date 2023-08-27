@@ -40,7 +40,7 @@ export default function ProductCard({ product }) {
       try {
         const totalRatings = Reviews.length;
         const averageRating =
-          totalRatings > 0 ? Reviews.reduce((sum, review) => sum + review.rating, 0) / totalRatings : 0;
+          totalRatings > 0 ? (Reviews.reduce((sum, review) => sum + review.rating, 0) / totalRatings).toFixed(1) : 0;
         setAverageRating(averageRating);
         setTotalReviews(totalRatings);
       } catch (error) {
@@ -68,7 +68,9 @@ export default function ProductCard({ product }) {
               Total Reviews: {totalReviews}
             </Typography>
             <Divider role="presentation">
-              <Typography variant="body2" color="text.secondary">Avg Rating</Typography>
+              <Typography variant="body2" color="text.secondary">
+                Avg Rating
+              </Typography>
             </Divider>
             <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Rating
