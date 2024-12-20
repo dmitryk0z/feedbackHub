@@ -9,5 +9,5 @@ The web application will have three core functionalities: User Authentication, D
 
 ### Preview
 ![image49](https://github.com/user-attachments/assets/99d395da-90f4-44eb-af7c-8140901d6ed5)
-![image43](https://github.com/user-attachments/assets/dfb1d28a-6b0b-4c52-9f49-6f4b40d6bfe9)
-![image75](https://github.com/user-attachments/assets/3aed35dc-eb4f-4e95-a474-08f972067374)
+![Photos_DWaysub6lf](https://github.com/user-attachments/assets/bbb4162f-1c37-4427-aafe-3ac33b9ea276)
+![Photos_a8R8Wzgp8I](https://github.com/user-attachments/assets/3e8323d8-1be2-452e-b3eb-afb273f4f00f)
